@@ -14,13 +14,14 @@
   <style>
     /* --- Custom Variables --- */
     :root {
-      --bg-deep: #050505; /* 0% Black (Deep) */
-      --bg-surface: #0f0f0f; /* ~10% Black */
-      --bg-card: #141414; /* ~15-20% Black */
-      --border-color: #2a2a2a;
-      --text-main: #ffffff;
-      --text-muted: #9ca3af;
-      --accent-pink: #ec4899; /* Neon Pink */
+      --bg-deep: #050505; /* Deep Black */
+      --bg-surface: #0a0a0a; /* Very Dark Grey */
+      --bg-card: #121212; /* Elegant Dark Grey */
+      --border-color: #222222;
+      --text-main: #e5e5e5;
+      --text-muted: #a3a3a3;
+      /* Deep Magenta / Elegant Pink */
+      --accent-pink: #be185d; 
     }
 
     /* --- Base Styles --- */
@@ -34,14 +35,14 @@
     .font-mono { font-family: 'JetBrains Mono', monospace; }
 
     /* --- Scrollbar --- */
-    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg-deep); }
-    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent-pink); box-shadow: 0 0 10px var(--accent-pink); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-pink); }
 
     /* --- Utilities --- */
     .text-gradient {
-      background: linear-gradient(to right, #fff, var(--accent-pink));
+      background: linear-gradient(135deg, #fff 30%, var(--accent-pink) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -56,46 +57,41 @@
     /* --- Browser Window Mockup --- */
     .browser-mockup {
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: 4px; /* Sharper corners for formal look */
       overflow: hidden;
       background: #000;
-      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.8);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .browser-mockup:hover {
-        border-color: var(--accent-pink);
-        box-shadow: 0 0 20px rgba(236, 72, 153, 0.2);
     }
     
     .browser-bar {
       background: var(--bg-surface);
-      padding: 10px 15px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       border-bottom: 1px solid var(--border-color);
     }
 
     .browser-dots {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
-    .dot-red { background: #ff5f56; }
-    .dot-yellow { background: #ffbd2e; }
-    .dot-green { background: #27c93f; }
+    .dot-red { background: #5c2b2b; }
+    .dot-yellow { background: #5c4b2b; }
+    .dot-green { background: #2b5c3e; }
 
     .browser-url {
       background: var(--bg-deep);
       flex-grow: 1;
-      height: 24px;
-      border-radius: 4px;
+      height: 28px;
+      border-radius: 2px;
       display: flex;
       align-items: center;
-      padding: 0 10px;
+      padding: 0 12px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: #666;
+      color: #555;
+      border: 1px solid var(--border-color);
     }
 
     /* --- Animations --- */
@@ -109,62 +105,56 @@
       transform: translateY(0);
     }
 
-    /* --- Magazine Card Style (Neon Effect) --- */
+    /* --- Magazine Card Style (Elegant) --- */
     .story-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
     }
     
-    /* The Neon Bar on the left */
+    /* Subtle accent line on left */
     .story-card::after {
       content: '';
       position: absolute;
-      top: 0; left: 0; width: 2px; height: 100%;
+      top: 0; left: 0; width: 3px; height: 100%;
       background: var(--accent-pink);
       opacity: 0;
       transition: opacity 0.3s ease;
-      box-shadow: 0 0 10px var(--accent-pink); /* Neon Glow for the line */
     }
 
     .story-card:hover {
       border-color: var(--accent-pink);
-      box-shadow: 0 0 15px rgba(236, 72, 153, 0.15); /* Subtle pink glow around card */
-      transform: translateY(-2px);
+      transform: translateY(-4px);
     }
     .story-card:hover::after { opacity: 1; }
 
-    /* --- Button Styles (Neon Line on Sides) --- */
+    /* --- Button Styles (Formal) --- */
     .btn-outline {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
       border: 1px solid var(--border-color);
-      padding: 0.5rem 1.2rem;
+      padding: 0.75rem 1.5rem;
       font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.1em;
+      font-weight: 600;
       transition: all 0.3s ease;
       color: var(--text-muted);
-      position: relative;
     }
     
     .btn-outline:hover {
       color: #fff;
-      background: rgba(236, 72, 153, 0.05); /* Very subtle pink bg */
-      border-left-color: var(--accent-pink);
-      border-right-color: var(--accent-pink);
-      /* Neon Glow on sides specifically */
-      box-shadow: -2px 0 10px -2px var(--accent-pink), 2px 0 10px -2px var(--accent-pink); 
+      background: var(--bg-surface);
+      border-color: var(--accent-pink);
     }
 
     /* --- Modal/Lightbox Styles --- */
     .modal {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95);
+      background: rgba(0,0,0,0.98); /* Cleaner black */
       z-index: 100;
       display: flex;
       align-items: center;
@@ -191,7 +181,6 @@
       overflow: hidden;
       border: 1px solid var(--border-color);
       background: #000;
-      box-shadow: 0 0 30px rgba(0,0,0,0.8);
     }
     
     .modal-img {
@@ -212,19 +201,19 @@
     }
 
     .close-modal {
-      background: none;
+      background: transparent;
       border: 1px solid var(--border-color);
       color: #fff;
-      font-size: 18px;
+      font-size: 12px;
       cursor: pointer;
-      padding: 5px 10px;
-      border-radius: 4px;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       transition: all 0.2s;
     }
     .close-modal:hover { 
       border-color: var(--accent-pink);
       color: var(--accent-pink);
-      box-shadow: 0 0 10px var(--accent-pink);
     }
 
   </style>
@@ -233,24 +222,24 @@
 
   <!-- Navigation -->
   <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-gray-900">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-      <a href="#" class="font-mono text-lg font-bold tracking-tighter flex items-center gap-2">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+      <a href="#" class="font-mono text-lg font-bold tracking-tighter flex items-center gap-3">
         <span class="text-white">JCS</span>
-        <span class="text-pink-500 text-xs align-top">DEV</span>
+        <span class="text-gray-500 text-xs align-top">DEV</span>
       </a>
       
       <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center gap-8 font-mono text-xs text-gray-400">
-        <a href="#featured" class="nav-link hover:text-pink-500 transition-colors hover:shadow-[0_0_10px_#ec4899]">FEATURED</a>
-        <a href="#stories" class="nav-link hover:text-pink-500 transition-colors hover:shadow-[0_0_10px_#ec4899]">STORIES</a>
-        <a href="#gallery" class="nav-link hover:text-pink-500 transition-colors hover:shadow-[0_0_10px_#ec4899]">GALLERY</a>
-        <a href="#certifications" class="nav-link hover:text-pink-500 transition-colors hover:shadow-[0_0_10px_#ec4899]">CERTS</a>
-        <a href="#contact" class="px-4 py-2 border border-gray-700 hover:border-pink-500 hover:text-pink-500 hover:shadow-[0_0_10px_#ec4899] transition-all">CONTACT</a>
+      <div class="hidden md:flex items-center gap-10 font-mono text-xs text-gray-500 uppercase tracking-wider">
+        <a href="#featured" class="nav-link hover:text-white transition-colors">Featured</a>
+        <a href="#stories" class="nav-link hover:text-white transition-colors">Stories</a>
+        <a href="#gallery" class="nav-link hover:text-white transition-colors">Gallery</a>
+        <a href="#certifications" class="nav-link hover:text-white transition-colors">Certs</a>
+        <a href="#contact" class="px-5 py-2 border border-gray-800 hover:border-pink-600 hover:text-pink-500 transition-all">Contact</a>
       </div>
 
       <!-- Mobile Menu Button -->
-      <button id="mobileMenuBtn" class="md:hidden text-white hover:text-pink-500 transition-colors">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <button id="mobileMenuBtn" class="md:hidden text-white">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M3 12h18M3 6h18M3 18h18"/>
         </svg>
       </button>
@@ -260,7 +249,7 @@
   <!-- Mobile Menu Overlay -->
   <div id="mobileMenu" class="fixed inset-0 z-40 bg-black transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center gap-8">
     <button id="closeMobileMenu" class="absolute top-6 right-6 text-gray-500 hover:text-white">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
@@ -276,36 +265,35 @@
   <main class="flex-grow pt-24">
 
     <!-- Hero / Banner Section -->
-    <section id="featured" class="min-h-[85vh] flex items-center px-6 md:px-12 mb-12">
-      <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-12 items-center">
+    <section id="featured" class="min-h-[90vh] flex items-center px-6 md:px-12 mb-12">
+      <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-16 items-center">
         
         <!-- Text Content -->
         <div class="lg:col-span-7 z-10 fade-in-up">
-          <div class="flex items-center gap-3 mb-6">
-            <!-- Neon Pink Dot -->
-            <span class="w-2 h-2 bg-pink-500 rounded-full animate-pulse shadow-[0_0_8px_#ec4899]"></span>
-            <span class="font-mono text-xs text-gray-400 tracking-widest uppercase">Available for Hire</span>
+          <div class="flex items-center gap-4 mb-8">
+            <!-- Elegant Pink Dot -->
+            <span class="w-1.5 h-1.5 bg-pink-700 rounded-full"></span>
+            <span class="font-mono text-xs text-gray-500 uppercase tracking-[0.2em]">Available for Hire</span>
           </div>
           
-          <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8">
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-10">
             Joushua<br>
             <span class="text-gray-600 font-light">Carewin</span><br>
             <span class="text-gradient">Soronio.</span>
           </h1>
 
-          <div class="font-mono text-sm md:text-base text-gray-400 mb-10 max-w-xl border-l-2 border-gray-700 pl-6">
-            <!-- Pink Syntax Highlighting -->
-            <p class="mb-2"><span class="text-white">const</span> role = <span class="text-pink-400 shadow-[0_0_5px_#ec4899]">"IT Support & Web Dev"</span>;</p>
-            <p><span class="text-white">let</span> status = <span class="text-pink-400 shadow-[0_0_5px_#ec4899]">"Graduating 2025"</span>;</p>
+          <div class="font-mono text-sm md:text-base text-gray-400 mb-12 max-w-xl border-l border-gray-800 pl-6">
+            <!-- Deep Pink Syntax -->
+            <p class="mb-2"><span class="text-white">const</span> role = <span class="text-pink-600">"IT Support & Web Dev"</span>;</p>
+            <p><span class="text-white">let</span> status = <span class="text-pink-600">"Graduating 2025"</span>;</p>
           </div>
 
-          <div class="flex flex-wrap gap-6">
-            <a href="#gallery" class="group relative px-8 py-4 bg-white text-black font-bold text-sm tracking-wider overflow-hidden">
-              <span class="relative z-10 group-hover:text-white transition-colors duration-300">VIEW PROJECTS</span>
-              <div class="absolute inset-0 bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></div>
+          <div class="flex flex-wrap gap-8">
+            <a href="#gallery" class="group relative px-10 py-4 bg-white text-black font-bold text-sm tracking-widest uppercase transition-all hover:bg-gray-200">
+              View Projects
             </a>
-            <a href="#contact" class="px-8 py-4 border border-gray-700 text-white font-mono text-xs hover:bg-gray-900 transition-colors">
-              CONTACT ME
+            <a href="#contact" class="px-10 py-4 border border-gray-800 text-white font-mono text-xs hover:bg-gray-900 transition-colors uppercase tracking-widest">
+              Contact Me
             </a>
           </div>
         </div>
@@ -314,97 +302,97 @@
         <div class="lg:col-span-5 relative fade-in-up delay-100">
           <div class="relative z-10">
              <div class="aspect-[3/4] bg-gray-900 overflow-hidden border border-gray-800 relative">
-               <div class="absolute top-4 left-4 z-20 bg-black/50 backdrop-blur px-3 py-1 border border-gray-700 font-mono text-xs text-white">
+               <div class="absolute top-4 left-4 z-20 bg-black/60 backdrop-blur px-3 py-1 border border-gray-700 font-mono text-xs text-white">
                  ID: 8DE3DA9A
                </div>
                <!-- UPDATED PATH: assets/profile.jpg -->
-               <img src="assets/profile.jpg" alt="Joushua Soronio" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 opacity-80 hover:opacity-100">
+               <img src="assets/profile.jpg" alt="Joushua Soronio" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 opacity-80 hover:opacity-100">
              </div>
-             <!-- Decorative Frame with Pink Tint -->
-             <div class="absolute -top-4 -right-4 w-full h-full border border-gray-800 -z-10"></div>
-             <div class="absolute -bottom-4 -left-4 w-full h-full border border-pink-500/30 -z-10"></div>
+             <!-- Decorative Frame - Subtle Pink Tint -->
+             <div class="absolute -top-3 -right-3 w-full h-full border border-gray-800 -z-10"></div>
+             <div class="absolute -bottom-3 -left-3 w-full h-full border border-pink-900/40 -z-10"></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Top Stories / Modules Section -->
-    <section id="stories" class="py-20 px-6 md:px-12 border-t border-gray-900 bg-black">
+    <section id="stories" class="py-24 px-6 md:px-12 border-t border-gray-900 bg-black">
       <div class="max-w-7xl mx-auto">
-        <div class="flex justify-between items-end mb-12 fade-in-up">
+        <div class="flex justify-between items-end mb-16 fade-in-up">
           <div>
-            <h2 class="font-mono text-xs text-gray-500 mb-2 tracking-widest">// MODULES</h2>
-            <h3 class="text-3xl font-bold">Top Stories</h3>
+            <h2 class="font-mono text-xs text-gray-500 mb-2 tracking-[0.2em] uppercase">// Modules</h2>
+            <h3 class="text-3xl font-bold tracking-tight">Top Stories</h3>
           </div>
           <div class="hidden md:block font-mono text-xs text-gray-600">
-            SCROLL FOR MORE <span class="animate-pulse text-pink-500">_</span>
+            Scroll for more
           </div>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           
           <!-- Story Card 1: Web Dev -->
-          <div class="story-card p-6 fade-in-up delay-100 cursor-pointer group">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-pink-500 group-hover:text-black group-hover:shadow-[0_0_15px_#ec4899] transition-all">
+          <div class="story-card p-8 fade-in-up delay-100 cursor-pointer group">
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-pink-600 group-hover:text-black transition-colors duration-500">
                 W
               </div>
               <div>
                 <h4 class="font-bold text-lg">Web Development</h4>
-                <p class="font-mono text-xs text-gray-500">PRIMARY FOCUS</p>
+                <p class="font-mono text-xs text-gray-500 uppercase tracking-wide">Primary Focus</p>
               </div>
             </div>
-            <p class="text-sm text-gray-400 mb-6 leading-relaxed">
+            <p class="text-sm text-gray-400 mb-8 leading-relaxed">
               Specializing in building responsive, high-performance web applications. Creating seamless user experiences with modern frameworks.
             </p>
-            <div class="flex items-center justify-between border-t border-gray-800 pt-4">
-              <span class="font-mono text-xs text-gray-600">SKILLSET</span>
-              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 group-hover:text-pink-400">
-                READ MORE <span class="text-lg leading-none">→</span>
+            <div class="flex items-center justify-between border-t border-gray-800 pt-6">
+              <span class="font-mono text-xs text-gray-600 uppercase">Skillset</span>
+              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2 group-hover:text-pink-500">
+                Read More <span class="text-lg leading-none">→</span>
               </span>
             </div>
           </div>
 
           <!-- Story Card 2: Networking -->
-          <div class="story-card p-6 fade-in-up delay-200 cursor-pointer group">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-pink-500 group-hover:text-black group-hover:shadow-[0_0_15px_#ec4899] transition-all">
+          <div class="story-card p-8 fade-in-up delay-200 cursor-pointer group">
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-pink-600 group-hover:text-black transition-colors duration-500">
                 N
               </div>
               <div>
                 <h4 class="font-bold text-lg">Network Fundamentals</h4>
-                <p class="font-mono text-xs text-gray-500">CERTIFIED KNOWLEDGE</p>
+                <p class="font-mono text-xs text-gray-500 uppercase tracking-wide">Certified Knowledge</p>
               </div>
             </div>
-            <p class="text-sm text-gray-400 mb-6 leading-relaxed">
+            <p class="text-sm text-gray-400 mb-8 leading-relaxed">
               Possessing foundational knowledge in network configurations, routing protocols, and user management systems. Certified by MikroTik.
             </p>
-            <div class="flex items-center justify-between border-t border-gray-800 pt-4">
-              <span class="font-mono text-xs text-gray-600">FOUNDATION</span>
-              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 group-hover:text-pink-400">
-                READ MORE <span class="text-lg leading-none">→</span>
+            <div class="flex items-center justify-between border-t border-gray-800 pt-6">
+              <span class="font-mono text-xs text-gray-600 uppercase">Foundation</span>
+              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2 group-hover:text-pink-500">
+                Read More <span class="text-lg leading-none">→</span>
               </span>
             </div>
           </div>
 
           <!-- Story Card 3: IT Support -->
-          <div class="story-card p-6 fade-in-up delay-300 cursor-pointer group">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-pink-500 group-hover:text-black group-hover:shadow-[0_0_15px_#ec4899] transition-all">
+          <div class="story-card p-8 fade-in-up delay-300 cursor-pointer group">
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-pink-600 group-hover:text-black transition-colors duration-500">
                 S
               </div>
               <div>
                 <h4 class="font-bold text-lg">System Support</h4>
-                <p class="font-mono text-xs text-gray-500">EXPERIENCE</p>
+                <p class="font-mono text-xs text-gray-500 uppercase tracking-wide">Experience</p>
               </div>
             </div>
-            <p class="text-sm text-gray-400 mb-6 leading-relaxed">
+            <p class="text-sm text-gray-400 mb-8 leading-relaxed">
               10+ months of hands-on experience at WMMC troubleshooting, debugging, and maintaining critical IT systems and hardware.
             </p>
-            <div class="flex items-center justify-between border-t border-gray-800 pt-4">
-              <span class="font-mono text-xs text-gray-600">10 MO EXP</span>
-              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 group-hover:text-pink-400">
-                READ MORE <span class="text-lg leading-none">→</span>
+            <div class="flex items-center justify-between border-t border-gray-800 pt-6">
+              <span class="font-mono text-xs text-gray-600 uppercase">10 Mo Exp</span>
+              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-2 group-hover:text-pink-500">
+                Read More <span class="text-lg leading-none">→</span>
               </span>
             </div>
           </div>
@@ -414,12 +402,12 @@
     </section>
 
     <!-- Gallery / Projects Section -->
-    <section id="gallery" class="py-20 px-6 md:px-12 bg-[#0a0a0a]">
+    <section id="gallery" class="py-24 px-6 md:px-12 bg-[#080808]">
       <div class="max-w-7xl mx-auto">
-        <h2 class="font-mono text-xs text-gray-500 mb-8 tracking-widest fade-in-up">// SELECTED WORKS</h2>
+        <h2 class="font-mono text-xs text-gray-500 mb-12 tracking-[0.2em] uppercase fade-in-up">// Selected Works</h2>
         
         <!-- Featured Large Project (DailyDala) -->
-        <div class="border border-gray-800 mb-12 fade-in-up transition-all duration-300 hover:border-pink-500/50 hover:shadow-[0_0_20px_rgba(236,72,153,0.1)]">
+        <div class="border border-gray-800 mb-12 fade-in-up transition-all duration-300">
             <!-- Browser Mockup Container -->
             <div class="browser-mockup">
                 <div class="browser-bar">
@@ -436,28 +424,27 @@
                 </div>
             </div>
             
-            <div class="p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-[#0f0f0f]">
+            <div class="p-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-[#0f0f0f]">
                 <div class="flex-grow">
-                    <!-- Updated Status: Added IN DEVELOPMENT -->
-                    <div class="font-mono text-xs text-yellow-500 mb-2">THESIS PROJECT • TEAM OF 3 • IN DEVELOPMENT</div>
-                    <h3 class="text-2xl font-bold mb-4">DailyDala Delivery System</h3>
-                    <p class="text-gray-400 text-sm max-w-2xl mb-4">
+                    <div class="font-mono text-xs text-yellow-600 mb-3 uppercase tracking-widest">Thesis Project • Team of 3 • In Development</div>
+                    <h3 class="text-3xl font-bold mb-4 tracking-tight">DailyDala Delivery System</h3>
+                    <p class="text-gray-400 text-sm max-w-2xl mb-8 leading-relaxed">
                         A centralized platform connecting Customers, Vendors, and Riders. Built as a capstone project to streamline local delivery logistics and tracking.
                     </p>
                     
-                    <!-- Updated Contribution: Labels changed to Pink -->
+                    <!-- Deep Pink Labels -->
                     <div class="pl-4 border-l border-gray-700">
-                        <p class="font-mono text-xs text-gray-500 mb-1">/* MY CONTRIBUTION */</p>
-                        <p class="text-sm text-gray-300">
-                            <span class="text-pink-400 shadow-[0_0_5px_#ec4899]">Backend:</span> Core Logic & Database Management.<br>
-                            <span class="text-pink-400 shadow-[0_0_5px_#ec4899]">Frontend:</span> Responsive Interface & User Experience Implementation.
+                        <p class="font-mono text-xs text-gray-500 mb-2 uppercase tracking-wide">/* My Contribution */</p>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            <span class="text-pink-600 font-semibold">Backend:</span> Core Logic & Database Management.<br>
+                            <span class="text-pink-600 font-semibold">Frontend:</span> Responsive Interface & User Experience Implementation.
                         </p>
                     </div>
                 </div>
                 
-                <div class="flex gap-4 mt-4 md:mt-0">
+                <div class="flex gap-4 mt-8 md:mt-0">
                     <a href="https://dailydala.shop/" target="_blank" rel="noopener noreferrer" class="btn-outline whitespace-nowrap">
-                        LAUNCH SITE <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        Launch Site <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                     </a>
                 </div>
             </div>
@@ -467,50 +454,49 @@
     </section>
 
     <!-- Certifications Section -->
-    <section id="certifications" class="py-20 px-6 md:px-12 bg-black border-t border-gray-900">
+    <section id="certifications" class="py-24 px-6 md:px-12 bg-black border-t border-gray-900">
       <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12 fade-in-up">
-            <h2 class="font-mono text-xs text-gray-500 mb-2 tracking-widest">// CREDENTIALS</h2>
+        <div class="text-center mb-16 fade-in-up">
+            <h2 class="font-mono text-xs text-gray-500 mb-2 tracking-[0.2em] uppercase">// Credentials</h2>
             <h3 class="text-3xl font-bold">Certifications</h3>
-            <p class="text-gray-500 mt-2 text-sm">Click on a card to view the full certificate.</p>
+            <p class="text-gray-500 mt-4 text-sm max-w-md mx-auto">
+                Click on a card to view the full certificate.
+            </p>
         </div>
 
         <div class="grid md:grid-cols-3 gap-6 fade-in-up">
             <!-- MTCNA Card -->
-            <div class="story-card p-6 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcna')">
+            <div class="story-card p-8 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcna')">
                 <div>
-                    <!-- CHANGED: Green to Pink -->
-                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-pink-500 transition-colors">MTCNA</h4>
-                    <p class="text-sm text-gray-400">MikroTik Certified Network Associate</p>
+                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-pink-600 transition-colors">MTCNA</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">MikroTik Certified Network Associate</p>
                 </div>
-                <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
-                    <span class="text-xs text-gray-600 font-mono">VIEW CERT</span>
+                <div class="mt-8 flex justify-between items-center border-t border-gray-800 pt-6">
+                    <span class="text-xs text-gray-600 font-mono uppercase tracking-wide">View Cert</span>
                     <svg class="w-4 h-4 text-gray-600 group-hover:text-white transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </div>
             </div>
 
             <!-- MTCUME Card -->
-            <div class="story-card p-6 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcume')">
+            <div class="story-card p-8 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcume')">
                 <div>
-                    <!-- CHANGED: Green to Pink -->
-                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-pink-500 transition-colors">MTCUME</h4>
-                    <p class="text-sm text-gray-400">MikroTik Certified User Management Engineer</p>
+                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-pink-600 transition-colors">MTCUME</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">MikroTik Certified User Management Engineer</p>
                 </div>
-                <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
-                    <span class="text-xs text-gray-600 font-mono">VIEW CERT</span>
+                <div class="mt-8 flex justify-between items-center border-t border-gray-800 pt-6">
+                    <span class="text-xs text-gray-600 font-mono uppercase tracking-wide">View Cert</span>
                     <svg class="w-4 h-4 text-gray-600 group-hover:text-white transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </div>
             </div>
 
             <!-- MTCRE Card -->
-            <div class="story-card p-6 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcre')">
+            <div class="story-card p-8 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcre')">
                 <div>
-                    <!-- CHANGED: Green to Pink -->
-                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-pink-500 transition-colors">MTCRE</h4>
-                    <p class="text-sm text-gray-400">MikroTik Certified Routing Engineer</p>
+                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-pink-600 transition-colors">MTCRE</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">MikroTik Certified Routing Engineer</p>
                 </div>
-                <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
-                    <span class="text-xs text-gray-600 font-mono">VIEW CERT</span>
+                <div class="mt-8 flex justify-between items-center border-t border-gray-800 pt-6">
+                    <span class="text-xs text-gray-600 font-mono uppercase tracking-wide">View Cert</span>
                     <svg class="w-4 h-4 text-gray-600 group-hover:text-white transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </div>
             </div>
@@ -521,29 +507,28 @@
     <!-- Contact Section -->
     <section id="contact" class="py-24 px-6 md:px-12">
       <div class="max-w-4xl mx-auto text-center fade-in-up">
-        <!-- CHANGED: Green to Pink -->
-        <h2 class="font-mono text-sm text-pink-500 mb-4 tracking-widest shadow-[0_0_10px_#ec4899] inline-block">/// INITIATE CONNECTION</h2>
-        <h3 class="text-4xl md:text-5xl font-bold mb-8">Let's work together.</h3>
-        <p class="text-gray-400 mb-10 max-w-lg mx-auto">
+        <h2 class="font-mono text-sm text-pink-700 mb-4 tracking-[0.2em] uppercase inline-block">/// Initiate Connection</h2>
+        <h3 class="text-4xl md:text-5xl font-bold mb-8 tracking-tight">Let's work together.</h3>
+        <p class="text-gray-400 mb-12 max-w-lg mx-auto leading-relaxed">
             Currently open for opportunities in Web Development and IT Support. 
             Send a signal to start a conversation.
         </p>
         
-        <a href="mailto:carewinsoronio@gmail.com" class="inline-block bg-white text-black font-bold py-4 px-10 hover:bg-gray-200 transition-colors text-sm tracking-wider">
-            SEND EMAIL
+        <a href="mailto:carewinsoronio@gmail.com" class="inline-block bg-white text-black font-bold py-4 px-12 hover:bg-gray-200 transition-colors text-sm tracking-widest uppercase">
+            Send Email
         </a>
 
-        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-gray-800 pt-12 text-left">
+        <div class="mt-24 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-gray-800 pt-12 text-left">
             <div>
-                <h5 class="font-mono text-xs text-gray-500 mb-2">LOCATION</h5>
+                <h5 class="font-mono text-xs text-gray-500 mb-2 uppercase tracking-wide">Location</h5>
                 <p class="text-white">Philippines</p>
             </div>
             <div>
-                <h5 class="font-mono text-xs text-gray-500 mb-2">EMAIL</h5>
+                <h5 class="font-mono text-xs text-gray-500 mb-2 uppercase tracking-wide">Email</h5>
                 <p class="text-white hover:underline cursor-pointer">carewinsoronio@gmail.com</p>
             </div>
             <div>
-                <h5 class="font-mono text-xs text-gray-500 mb-2">PHONE</h5>
+                <h5 class="font-mono text-xs text-gray-500 mb-2 uppercase tracking-wide">Phone</h5>
                 <p class="text-white hover:underline cursor-pointer">0995 943 3568</p>
             </div>
         </div>
@@ -563,14 +548,14 @@
   <div id="certModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 id="modalTitle" class="text-white text-sm font-bold">CERTIFICATE TITLE</h3>
-            <button class="close-modal" onclick="closeModal()">CLOSE [X]</button>
+            <h3 id="modalTitle" class="text-white text-sm font-bold uppercase tracking-widest">Certificate Title</h3>
+            <button class="close-modal" onclick="closeModal()">Close</button>
         </div>
         <div class="modal-img-container">
             <img id="modalImage" src="" alt="Certificate" class="modal-img">
         </div>
         <div class="w-full text-center mt-4">
-            <p class="text-xs text-gray-500 font-mono">Click outside to close</p>
+            <p class="text-xs text-gray-600 font-mono uppercase tracking-widest">Click outside to close</p>
         </div>
     </div>
   </div>
