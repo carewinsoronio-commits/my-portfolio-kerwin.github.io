@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joushua Carewin Soronio | Developer</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- Custom Variables --- */
+    :root {
+      --bg-deep: #050505;
+      --bg-surface: #0f0f0f;
+      --bg-card: #141414;
+      --border-color: #2a2a2a;
+      --text-main: #ffffff;
+      --text-muted: #9ca3af;
+      --accent-glow: rgba(255, 255, 255, 0.1);
+    }
+
+    /* --- Base Styles --- */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* --- Scrollbar --- */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+    /* --- Utilities --- */
+    .text-gradient {
+      background: linear-gradient(to right, #fff, #888);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .border-grid {
+      background-size: 40px 40px;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    }
+
+    /* --- Browser Window Mockup --- */
+    .browser-mockup {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.8);
+    }
+    
+    .browser-bar {
+      background: #1a1a1a;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .browser-url {
+      background: #000;
+      flex-grow: 1;
+      height: 24px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #666;
+    }
+
+    /* --- Animations --- */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Magazine Card Style --- */
+    .story-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .story-card:hover {
+      border-color: #555;
+      transform: translateY(-2px);
+      background: #1a1a1a;
+    }
+    .story-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 2px; height: 100%;
+      background: #fff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .story-card:hover::after { opacity: 1; }
+
+    /* --- Button Styles --- */
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1.2rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      color: var(--text-muted);
+    }
+    .btn-outline:hover {
+      border-color: #fff;
+      color: #fff;
+      background: var(--bg-surface);
+    }
+
+    /* --- Modal/Lightbox Styles --- */
+    .modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+    .modal.active { opacity: 1; pointer-events: auto; }
+    
+    .modal-content {
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .modal-img-container {
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: #000;
+    }
+    
+    .modal-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      max-height: 80vh;
+    }
+
+    .modal-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+    }
+    .close-modal:hover { color: #ff5f56; }
+
+  </style>
+</head>
+<body class="border-grid min-h-screen flex flex-col">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-gray-900">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+      <a href="#" class="font-mono text-lg font-bold tracking-tighter flex items-center gap-2">
+        <span class="text-white">JCS</span>
+        <span class="text-gray-600 text-xs align-top">DEV</span>
+      </a>
+      
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-8 font-mono text-xs text-gray-400">
+        <a href="#featured" class="nav-link hover:text-white transition-colors">FEATURED</a>
+        <a href="#stories" class="nav-link hover:text-white transition-colors">STORIES</a>
+        <a href="#gallery" class="nav-link hover:text-white transition-colors">GALLERY</a>
+        <a href="#certifications" class="nav-link hover:text-white transition-colors">CERTS</a>
+        <a href="#contact" class="px-4 py-2 border border-gray-700 hover:border-white hover:text-white transition-all">CONTACT</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="md:hidden text-white">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobileMenu" class="fixed inset-0 z-40 bg-black transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-center gap-8">
+    <button id="closeMobileMenu" class="absolute top-6 right-6 text-gray-500 hover:text-white">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <a href="#featured" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Featured</a>
+    <a href="#stories" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Stories</a>
+    <a href="#gallery" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Gallery</a>
+    <a href="#certifications" class="mobile-link text-2xl font-bold text-gray-300 hover:text-white">Certificates</a>
+    <a href="#contact" class="mobile-link text-2xl font-bold text-white">Get in Touch</a>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-grow pt-24">
+
+    <!-- Hero / Banner Section -->
+    <section id="featured" class="min-h-[85vh] flex items-center px-6 md:px-12 mb-12">
+      <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Text Content -->
+        <div class="lg:col-span-7 z-10 fade-in-up">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span class="font-mono text-xs text-gray-400 tracking-widest uppercase">Available for Hire</span>
+          </div>
+          
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8">
+            Joushua<br>
+            <span class="text-gray-600 font-light">Carewin</span><br>
+            <span class="text-gradient">Soronio.</span>
+          </h1>
+
+          <div class="font-mono text-sm md:text-base text-gray-400 mb-10 max-w-xl border-l-2 border-gray-700 pl-6">
+            <p class="mb-2"><span class="text-white">const</span> role = <span class="text-green-400">"IT Support & Web Dev"</span>;</p>
+            <p><span class="text-white">let</span> status = <span class="text-green-400">"Graduating 2025"</span>;</p>
+          </div>
+
+          <div class="flex flex-wrap gap-6">
+            <a href="#gallery" class="group relative px-8 py-4 bg-white text-black font-bold text-sm tracking-wider overflow-hidden">
+              <span class="relative z-10 group-hover:text-white transition-colors duration-300">VIEW PROJECTS</span>
+              <div class="absolute inset-0 bg-black transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></div>
+            </a>
+            <a href="#contact" class="px-8 py-4 border border-gray-700 text-white font-mono text-xs hover:bg-gray-900 transition-colors">
+              CONTACT ME
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Image / Visual -->
+        <div class="lg:col-span-5 relative fade-in-up delay-100">
+          <div class="relative z-10">
+             <div class="aspect-[3/4] bg-gray-900 overflow-hidden border border-gray-800 relative">
+               <div class="absolute top-4 left-4 z-20 bg-black/50 backdrop-blur px-3 py-1 border border-gray-700 font-mono text-xs text-white">
+                 ID: 8DE3DA9A
+               </div>
+               <!-- UPDATED PATH: assets/profile.jpg -->
+               <img src="assets/profile.jpg" alt="Joushua Soronio" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 opacity-80 hover:opacity-100">
+             </div>
+             <!-- Decorative Frame -->
+             <div class="absolute -top-4 -right-4 w-full h-full border border-gray-800 -z-10"></div>
+             <div class="absolute -bottom-4 -left-4 w-full h-full border border-gray-800 -z-10"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Stories / Modules Section -->
+    <section id="stories" class="py-20 px-6 md:px-12 border-t border-gray-900 bg-black">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-end mb-12 fade-in-up">
+          <div>
+            <h2 class="font-mono text-xs text-gray-500 mb-2 tracking-widest">// MODULES</h2>
+            <h3 class="text-3xl font-bold">Top Stories</h3>
+          </div>
+          <div class="hidden md:block font-mono text-xs text-gray-600">
+            SCROLL FOR MORE <span class="animate-pulse">_</span>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Story Card 1: Web Dev -->
+          <div class="story-card p-6 fade-in-up delay-100 cursor-pointer group">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-white group-hover:text-black transition-colors">
+                W
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">Web Development</h4>
+                <p class="font-mono text-xs text-gray-500">PRIMARY FOCUS</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-400 mb-6 leading-relaxed">
+              Specializing in building responsive, high-performance web applications. Creating seamless user experiences with modern frameworks.
+            </p>
+            <div class="flex items-center justify-between border-t border-gray-800 pt-4">
+              <span class="font-mono text-xs text-gray-600">SKILLSET</span>
+              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                READ MORE <span class="text-lg leading-none">→</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Story Card 2: Networking -->
+          <div class="story-card p-6 fade-in-up delay-200 cursor-pointer group">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-white group-hover:text-black transition-colors">
+                N
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">Network Fundamentals</h4>
+                <p class="font-mono text-xs text-gray-500">CERTIFIED KNOWLEDGE</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-400 mb-6 leading-relaxed">
+              Possessing foundational knowledge in network configurations, routing protocols, and user management systems. Certified by MikroTik.
+            </p>
+            <div class="flex items-center justify-between border-t border-gray-800 pt-4">
+              <span class="font-mono text-xs text-gray-600">FOUNDATION</span>
+              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                READ MORE <span class="text-lg leading-none">→</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Story Card 3: IT Support -->
+          <div class="story-card p-6 fade-in-up delay-300 cursor-pointer group">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center font-mono font-bold text-white group-hover:bg-white group-hover:text-black transition-colors">
+                S
+              </div>
+              <div>
+                <h4 class="font-bold text-lg">System Support</h4>
+                <p class="font-mono text-xs text-gray-500">EXPERIENCE</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-400 mb-6 leading-relaxed">
+              10+ months of hands-on experience at WMMC troubleshooting, debugging, and maintaining critical IT systems and hardware.
+            </p>
+            <div class="flex items-center justify-between border-t border-gray-800 pt-4">
+              <span class="font-mono text-xs text-gray-600">10 MO EXP</span>
+              <span class="font-mono text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                READ MORE <span class="text-lg leading-none">→</span>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery / Projects Section -->
+    <section id="gallery" class="py-20 px-6 md:px-12 bg-[#080808]">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="font-mono text-xs text-gray-500 mb-8 tracking-widest fade-in-up">// SELECTED WORKS</h2>
+        
+        <!-- Featured Large Project (DailyDala) -->
+        <div class="border border-gray-800 mb-12 fade-in-up">
+            <!-- Browser Mockup Container -->
+            <div class="browser-mockup">
+                <div class="browser-bar">
+                    <div class="browser-dots">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="browser-url">https://dailydala.shop/</div>
+                </div>
+                <!-- UPDATED PATH: assets/projects/dailydala-screenshot.png -->
+                <div class="bg-white relative h-64 md:h-96 w-full">
+                     <img src="assets/projects/dailydala-screenshot.png" alt="DailyDala Website Screenshot" class="w-full h-full object-cover">
+                </div>
+            </div>
+            
+            <div class="p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-[#0f0f0f]">
+                <div class="flex-grow">
+                    <!-- Updated Status: Added IN DEVELOPMENT -->
+                    <div class="font-mono text-xs text-yellow-500 mb-2">THESIS PROJECT • TEAM OF 3 • IN DEVELOPMENT</div>
+                    <h3 class="text-2xl font-bold mb-4">DailyDala Delivery System</h3>
+                    <p class="text-gray-400 text-sm max-w-2xl mb-4">
+                        A centralized platform connecting Customers, Vendors, and Riders. Built as a capstone project to streamline local delivery logistics and tracking.
+                    </p>
+                    
+                    <!-- Updated Contribution: Removed API, added Core Logic -->
+                    <div class="pl-4 border-l border-gray-700">
+                        <p class="font-mono text-xs text-gray-500 mb-1">/* MY CONTRIBUTION */</p>
+                        <p class="text-sm text-gray-300">
+                            <span class="text-white">Backend:</span> Core Logic & Database Management.<br>
+                            <span class="text-white">Frontend:</span> Responsive Interface & User Experience Implementation.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="https://dailydala.shop/" target="_blank" rel="noopener noreferrer" class="btn-outline whitespace-nowrap">
+                        LAUNCH SITE <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-20 px-6 md:px-12 bg-black border-t border-gray-900">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12 fade-in-up">
+            <h2 class="font-mono text-xs text-gray-500 mb-2 tracking-widest">// CREDENTIALS</h2>
+            <h3 class="text-3xl font-bold">Certifications</h3>
+            <p class="text-gray-500 mt-2 text-sm">Click on a card to view the full certificate.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 fade-in-up">
+            <!-- MTCNA Card -->
+            <div class="story-card p-6 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcna')">
+                <div>
+                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-green-400 transition-colors">MTCNA</h4>
+                    <p class="text-sm text-gray-400">MikroTik Certified Network Associate</p>
+                </div>
+                <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
+                    <span class="text-xs text-gray-600 font-mono">VIEW CERT</span>
+                    <svg class="w-4 h-4 text-gray-600 group-hover:text-white transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </div>
+            </div>
+
+            <!-- MTCUME Card -->
+            <div class="story-card p-6 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcume')">
+                <div>
+                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-green-400 transition-colors">MTCUME</h4>
+                    <p class="text-sm text-gray-400">MikroTik Certified User Management Engineer</p>
+                </div>
+                <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
+                    <span class="text-xs text-gray-600 font-mono">VIEW CERT</span>
+                    <svg class="w-4 h-4 text-gray-600 group-hover:text-white transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </div>
+            </div>
+
+            <!-- MTCRE Card -->
+            <div class="story-card p-6 flex flex-col justify-between cursor-pointer group" onclick="openModal('mtcre')">
+                <div>
+                    <h4 class="font-mono text-xl font-bold mb-2 group-hover:text-green-400 transition-colors">MTCRE</h4>
+                    <p class="text-sm text-gray-400">MikroTik Certified Routing Engineer</p>
+                </div>
+                <div class="mt-6 flex justify-between items-center border-t border-gray-800 pt-4">
+                    <span class="text-xs text-gray-600 font-mono">VIEW CERT</span>
+                    <svg class="w-4 h-4 text-gray-600 group-hover:text-white transform group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 md:px-12">
+      <div class="max-w-4xl mx-auto text-center fade-in-up">
+        <h2 class="font-mono text-sm text-green-500 mb-4 tracking-widest">/// INITIATE CONNECTION</h2>
+        <h3 class="text-4xl md:text-5xl font-bold mb-8">Let's work together.</h3>
+        <p class="text-gray-400 mb-10 max-w-lg mx-auto">
+            Currently open for opportunities in Web Development and IT Support. 
+            Send a signal to start a conversation.
+        </p>
+        
+        <a href="mailto:carewinsoronio@gmail.com" class="inline-block bg-white text-black font-bold py-4 px-10 hover:bg-gray-200 transition-colors text-sm tracking-wider">
+            SEND EMAIL
+        </a>
+
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-gray-800 pt-12 text-left">
+            <div>
+                <h5 class="font-mono text-xs text-gray-500 mb-2">LOCATION</h5>
+                <p class="text-white">Philippines</p>
+            </div>
+            <div>
+                <h5 class="font-mono text-xs text-gray-500 mb-2">EMAIL</h5>
+                <p class="text-white hover:underline cursor-pointer">carewinsoronio@gmail.com</p>
+            </div>
+            <div>
+                <h5 class="font-mono text-xs text-gray-500 mb-2">PHONE</h5>
+                <p class="text-white hover:underline cursor-pointer">0995 943 3568</p>
+            </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-8 border-t border-gray-900 bg-black text-center">
+    <p class="font-mono text-xs text-gray-700">
+      DESIGNED & CODED BY JOUSHUA SORONIO © 2025
+    </p>
+  </footer>
+
+  <!-- Modal for Certificates -->
+  <div id="certModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle" class="text-white text-sm font-bold">CERTIFICATE TITLE</h3>
+            <button class="close-modal" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-img-container">
+            <img id="modalImage" src="" alt="Certificate" class="modal-img">
+        </div>
+        <div class="w-full text-center mt-4">
+            <p class="text-xs text-gray-500 font-mono">Click outside to close</p>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    // Certificate Data (UPDATED PATHS)
+    const certData = {
+      mtcna: {
+        title: 'MikroTik Certified Network Associate',
+        src: 'assets/certificates/mtcna.jpg'
+      },
+      mtcume: {
+        title: 'MikroTik Certified User Management Engineer',
+        src: 'assets/certificates/mtcume.jpg'
+      },
+      mtcre: {
+        title: 'MikroTik Certified Routing Engineer',
+        src: 'assets/certificates/mtcre.jpg'
+      }
+    };
+
+    const modal = document.getElementById('certModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalImage = document.getElementById('modalImage');
+
+    function openModal(key) {
+      if(certData[key]) {
+        modalTitle.textContent = certData[key].title;
+        modalImage.src = certData[key].src;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+      }
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal when clicking outside the content
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Mobile Menu Logic
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    function toggleMenu(show) {
+      if(show) {
+        mobileMenu.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden';
+      } else {
+        mobileMenu.classList.add('translate-x-full');
+        document.body.style.overflow = '';
+      }
+    }
+
+    mobileMenuBtn.addEventListener('click', () => toggleMenu(true));
+    closeMobileMenu.addEventListener('click', () => toggleMenu(false));
+    mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+
+    // Intersection Observer for Animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); 
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in-up').forEach(el => {
+      observer.observe(el);
+    });
+
+  </script>
+</body>
+</html>
